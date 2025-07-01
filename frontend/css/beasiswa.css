@@ -1,0 +1,51 @@
+/* Navbar Gradasi Biru */
+.custom-navbar {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
+}
+
+.custom-navbar .nav-link {
+  color: white;
+}
+
+.custom-navbar .nav-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.custom-navbar .btn-outline-light {
+  color: white;
+  border-color: white;
+}
+
+.custom-navbar .btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Bagian Beasiswa Section */
+.beasiswa-section {
+  min-height: 100vh;
+  background-image: url("../asset/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 5rem;
+}
+
+/* H2 di Beasiswa agar lebih kontras */
+.beasiswa-section h2 {
+  color: white;
+  font-weight: 600;
+}
+
+/* Tombol bulan style sama navbar */
+.beasiswa-section .btn-outline-light.active {
+  background-color: #00b4db;
+  color: white;
+  border: none;
+}
+
+.beasiswa-section .btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
