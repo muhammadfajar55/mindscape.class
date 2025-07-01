@@ -1,14 +1,17 @@
 {
   "name": "mindscape-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Mindscape backend with integrated frontend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
