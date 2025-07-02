@@ -1,54 +1,27 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const {
-  createUser,
-  findUserByEmail,
-  getAllUsers,
-} = require("../models/userModel");
-
 const router = express.Router();
+const db = require("../db");
 
-// === REGISTER ===
-router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-
-  findUserByEmail(email, async (err, results) => {
-    if (err) return res.status(500).json({ msg: "DB Error" });
-    if (results.length > 0) return res.status(400).json({ msg: "User exists" });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    createUser(email, hashedPassword, (err) => {
-      if (err) return res.status(500).json({ msg: "Register failed" });
-      res.json({ msg: "User registered" });
-    });
-  });
-});
-
-// === LOGIN ===
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  findUserByEmail(email, async (err, results) => {
-    if (err) return res.status(500).json({ msg: "DB Error" });
+  const query = "SELECT * FROM users WHERE email = ? AND password = ?";
+  db.query(query, [email, password], (err, results) => {
+    if (err) return res.status(500).json({ message: "DB error", err });
     if (results.length === 0)
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(401).json({ message: "Invalid credentials" });
 
-    const match = await bcrypt.compare(password, results[0].password);
-    if (!match) return res.status(401).json({ msg: "Wrong password" });
-
-    const token = jwt.sign({ id: results[0].id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.json({ token });
+    res.json({ message: "Login berhasil", user: results[0] });
   });
 });
 
-// === GET ALL USERS (for admin) ===
-router.get("/users", (req, res) => {
-  getAllUsers((err, results) => {
-    if (err) return res.status(500).json({ msg: "Database error" });
-    res.json(results);
+router.post("/register", (req, res) => {
+  const { name, email, password } = req.body;
+
+  const query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+  db.query(query, [name, email, password], (err, result) => {
+    if (err) return res.status(500).json({ message: "DB error", err });
+    res.json({ message: "Register berhasil" });
   });
 });
 
